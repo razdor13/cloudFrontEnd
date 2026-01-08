@@ -17,7 +17,14 @@ export const checkAuth = async () => {
     //     ? process.env.API_URL_INTERNAL
     //     : process.env.NEXT_PUBLIC_API_URL;
     // axios.defaults.baseURL = apiBase;
-    // TODO
+    const getBaseURL = () => {
+      if (typeof window !== "undefined") {
+        return "http://localhost:7777";
+      }
+      return process.env.API_URL_INTERNAL || "http://localhost:7777";
+    };
+    axios.defaults.baseURL = getBaseURL();
+
     axios.defaults.withCredentials = true;
     axios.defaults.headers.Authorization = "Bearer " + token;
     await Api.auth.getMe();
